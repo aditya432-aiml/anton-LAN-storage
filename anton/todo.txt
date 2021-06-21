@@ -1,0 +1,1 @@
+-Make a setup script to run setup.py in flask-autoindex

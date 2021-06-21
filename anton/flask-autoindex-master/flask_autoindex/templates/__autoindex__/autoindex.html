@@ -1,0 +1,62 @@
+{% from "__autoindex__/macros.html" import entry, thead, breadcrumb
+with context %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Index of {{ curdir.path }}</title>
+  {% block meta %}
+  <link rel="stylesheet" type="text/css" href="{{ url_for('__autoindex__.static', filename='autoindex.css') }}" />
+  {% endblock %}
+</head>
+
+<body>
+  {% block header %}
+  {% endblock %}
+  {% block table %}
+  <table>
+    <thead>
+      {{ thead() }}
+      {% if not curdir.is_root() %}
+      <tr>
+        <td class="breadcrumb" colspan="4">
+          <h1>{{ breadcrumb(curdir) }}</h1>
+        </td>
+      </tr>
+      {% endif %}
+    </thead>
+    <tbody>
+      {% for ent in entries %}
+      {{ entry(ent) }}
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endblock %}
+  {% block footer %}
+  {% set env = request.environ %}
+  <address>{{ env.SERVER_SOFTWARE }}
+    Server at {{ env.HTTP_HOST }}
+    Port {{ env.SERVER_PORT }}</address>
+  {% endblock %}
+  <form method="POST" action="" enctype="multipart/form-data">
+    <p style="text-align: center; font-size: 16px">
+      Select files to upload:
+      <input type="file" multiple name="file[]">
+    </p>
+    <br>
+    <p style="text-align: center; font-size: 16px">
+      Select files from directory:
+      <input type="file" name="file[]" webkitdirectory mozdirectory />
+    </p>
+    <br>
+    <p style="text-align: center">
+      <button class="button" type="submit">
+        Upload!
+      </button>
+    </p>
+  </form>
+</body>
+
+</html>
