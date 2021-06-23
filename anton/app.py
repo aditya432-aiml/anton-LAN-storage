@@ -16,6 +16,7 @@ app.config['UPLOAD_PATH'] = ppath
 
 AutoIndex(app, browse_root=ppath)
 
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -59,4 +60,4 @@ def downloadFile(file):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0')
