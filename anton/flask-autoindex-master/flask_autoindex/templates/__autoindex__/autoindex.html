@@ -57,6 +57,14 @@ with context %}
       </button>
     </p>
   </form>
+  <form method="POST" action="{{url_for('zip')}}" enctype="multipart/form-data">
+    <p style="text-align: center; font-size: 16px">
+      Upload directory as archive:
+      <input type="text" name="zipname" placeholder="Enter a name" />
+      <input type="file" name="dir[]" webkitdirectory mozdirectory />
+      <button class="button" type="submit">Create zip</button>
+    </p>
+  </form>
 </body>
 
 </html>
