@@ -169,14 +169,15 @@ address {
   color: #333;
   text-align: right;
 }
+
 .button {
   color: green;
   border: 2px solid green;
   background-color: white;
-  padding: 12px 24px;
+  padding: 6px 12px;
   font-size: 16px;
   cursor: pointer;
-  border-radius: 12px;
+  border-radius: 6px;
 }
 
 .button:hover {
