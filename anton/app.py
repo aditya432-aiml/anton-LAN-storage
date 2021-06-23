@@ -1,27 +1,38 @@
 import os
 from flask import Flask, request, redirect, url_for, send_file
+from flask.templating import render_template
 from flask_autoindex import AutoIndex
+
 from werkzeug.utils import redirect, secure_filename
+from zipfile import ZipFile
+from os.path import basename
 
 
 ppath = 'shared'
 
 app = Flask(__name__)
+app.config['UPLOAD_PATH'] = ppath
+
 
 AutoIndex(app, browse_root=ppath)
 
-app.config['UPLOAD_PATH'] = 'shared'
-
-
-@app.route('/', methods=['POST'])
-def upload_file():
-    uploaded_files = request.files.getlist("file[]")
-    for uploaded_file in uploaded_files:
-        filename = secure_filename(uploaded_file.filename)
-        if filename != '':
-            uploaded_file.save(os.path.join(
-                app.config['UPLOAD_PATH'], filename))
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        uploaded_files = request.files.getlist("file[]")
+        for uploaded_file in uploaded_files:
+            filename = secure_filename(uploaded_file.filename)
+            if filename != '':
+                uploaded_file.save(os.path.join(
+                    app.config['UPLOAD_PATH'], filename))
     return redirect(url_for('autoindex'))
+
+
+@app.route('/delete/<path>')
+def delete(path):
+    os.remove(ppath + "\\" + path)
+    return redirect(url_for('autoindex'))
+
 
 @app.route('/zip', methods=['POST'])
 def zip():
@@ -41,11 +52,6 @@ def zip():
             os.remove(os.path.join('zips', f))
     return redirect(url_for('autoindex'))
 
-@app.route('/delete/<path>')
-def delete(path):
-    os.remove(ppath + "\\" + path)
-    return redirect(url_for('autoindex'))
-
 
 @app.route('/download/<file>')
 def downloadFile(file):
@@ -53,4 +59,4 @@ def downloadFile(file):
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0')
+    app.run(debug=True)
