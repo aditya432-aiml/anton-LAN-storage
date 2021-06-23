@@ -23,6 +23,23 @@ def upload_file():
                 app.config['UPLOAD_PATH'], filename))
     return redirect(url_for('autoindex'))
 
+@app.route('/zip', methods=['POST'])
+def zip():
+    name = request.form.get('zipname')
+    zip_files = request.files.getlist("dir[]")
+    for file in zip_files:
+        filename = secure_filename(file.filename)
+        if filename != '':
+            file.save(os.path.join('zips', filename))
+    if len(os.listdir('zips')) != 0:
+        zipObj = ZipFile(f'shared/{name}.zip', 'w')
+        for folderName, subfolders, filenames in os.walk('zips'):
+            for filename in filenames:
+                filePath = os.path.join(folderName, filename)
+                zipObj.write(filePath, basename(filePath))
+        for f in os.listdir('zips'):
+            os.remove(os.path.join('zips', f))
+    return redirect(url_for('autoindex'))
 
 @app.route('/delete/<path>')
 def delete(path):
