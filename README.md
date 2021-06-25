@@ -33,7 +33,7 @@ To run the server, navigate to \anton-LAN-storage\anton, and run
 ```
 python app.py
 ```
-This will start the server at the local IP address of your machine. 
+This will start the server at the local IP address of your machine, at port 5000. 
 The server IP will also be visible in the command window that opens.
 ## Features
 
