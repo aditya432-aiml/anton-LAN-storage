@@ -35,6 +35,9 @@ python app.py
 ```
 This will start the server at the local IP address of your machine, at port 5000. 
 The server IP will also be visible in the command window that opens.
+To share files and folders with other devices on the same network, upload them.
+To access the files and folders from other devices, simply go to the address visible in the command window. 
+
 ## Features
 
 - Hassle free, one line setup and running
